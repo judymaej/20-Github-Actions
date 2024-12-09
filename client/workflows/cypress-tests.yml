@@ -1,0 +1,35 @@
+name: Run Cypress Tests
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  cypress-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "17" #
+
+      # Install project dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Start the application for testing (if needed)
+      - name: Start application
+        run: npm start &
+        env:
+          NODE_ENV: test
+
+      # Run Cypress tests
+      - name: Run Cypress tests
+        run: npm run test:cypress
